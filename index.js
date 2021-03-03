@@ -4,6 +4,43 @@
 // extract from chromium source code by @liuwayong
 (function () {
     'use strict';
+    
+    const dejaVuHandler = (() => {
+        const dejaVu = new Audio('./assets/music/dejaVu.mp3');
+        dejaVu.loop = true;
+        return {
+            play() {
+                dejaVu.play();
+            },
+            pause() {
+                dejaVu.pause();
+            },
+            restart() {
+                dejaVu.currentTime = 0;
+            }
+        };
+    })();
+    
+    const hitHandler = (() => {
+        const hert = new Audio('./assets/music/hert.mp3');
+        const background = new Audio('./assets/music/background.mp3');
+        return {
+            play() {
+                background.play();
+                hert.play();
+            },
+            pause() {
+                hert.pause();
+                background.pause();
+            },
+            restart() {
+                hert.currentTime = 0;
+                background.currentTime = 0;
+                this.pause();
+            }
+        };
+    })();
+
     /**
      * T-Rex runner.
      * @param {string} outerContainerId Outer containing element id.
@@ -495,6 +532,7 @@
          * Update the game status to started.
          */
         startGame: function () {
+            dejaVuHandler.play();
             this.runningTime = 0;
             this.playingIntro = false;
             this.tRex.playingIntro = false;
@@ -770,7 +808,8 @@
          * Game over state.
          */
         gameOver: function () {
-            this.playSound(this.soundFx.HIT);
+            dejaVuHandler.pause();
+            hitHandler.play();
             vibrate(200);
 
             this.stop();
@@ -817,6 +856,8 @@
 
         restart: function () {
             if (!this.raqId) {
+                dejaVuHandler.play();
+                hitHandler.restart();
                 this.playCount++;
                 this.runningTime = 0;
                 this.playing = true;
@@ -842,9 +883,14 @@
             if (document.hidden || document.webkitHidden || e.type == 'blur' ||
                 document.visibilityState != 'visible') {
                 this.stop();
+                hitHandler.pause();
+                dejaVuHandler.pause();
             } else if (!this.crashed) {
                 this.tRex.reset();
                 this.play();
+                dejaVuHandler.play();
+            } else if (this.crashed) {
+                hitHandler.play();
             }
         },
 
