@@ -8,6 +8,7 @@
     const dejaVuHandler = (() => {
         const dejaVu = new Audio('./assets/music/dejaVu.mp3');
         dejaVu.loop = true;
+        dejaVu.volume = 0.6;
         return {
             play() {
                 dejaVu.play();
@@ -24,6 +25,7 @@
     const hitHandler = (() => {
         const hert = new Audio('./assets/music/hert.mp3');
         const background = new Audio('./assets/music/background.mp3');
+        background.volume = 0.5;
         return {
             play() {
                 background.play();
@@ -738,7 +740,7 @@
                     this.tRex.setSpeedDrop();
                 } else if (!this.tRex.jumping && !this.tRex.ducking) {
                     // Duck.
-                    this.tRex.setDuck(true);
+                    this.gameOver();
                 }
             }
         },
