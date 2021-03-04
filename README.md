@@ -1,6 +1,6 @@
 ## 統神端火鍋小恐龍
 
-![](./assets/intro.jpg)
+![](./data/intro.gif)
 
 跑吧，統神
 
