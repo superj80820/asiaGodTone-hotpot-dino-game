@@ -43,6 +43,21 @@
         };
     })();
 
+    const scoreHandler = (() => {
+        const scoreArrays = [new Audio('./assets/music/score-again.mp3'), new Audio('./assets/music/score-carry.mp3'), new Audio('./assets/music/score-god.mp3')]
+        return {
+            randomSelect() {
+                return scoreArrays[Math.floor(Math.random() * scoreArrays.length)]
+            },
+            play() {
+                this.randomSelect().play();
+            },
+            pause() {
+                this.randomSelect().pause()
+            },
+        };
+    })();
+
     /**
      * T-Rex runner.
      * @param {string} outerContainerId Outer containing element id.
@@ -609,7 +624,7 @@
                     Math.ceil(this.distanceRan));
 
                 if (playAchievementSound) {
-                    this.playSound(this.soundFx.SCORE);
+                    scoreHandler.play();
                 }
 
                 // Night mode.
